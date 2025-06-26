@@ -1,0 +1,15 @@
+global using System.Collections.Concurrent;
+global using System.Globalization;
+global using System.Text;
+global using BenchmarkDotNet.Attributes;
+global using BenchmarkDotNet.Jobs;
+global using BenchmarkDotNet.Running;
+global using Autodesk.DataExchange.Serilog.Context;
+global using Autodesk.DataExchange.Serilog.Core;
+global using Autodesk.DataExchange.Serilog.Core.Pipeline;
+global using Autodesk.DataExchange.Serilog.Events;
+global using Autodesk.DataExchange.Serilog.Filters;
+global using Autodesk.DataExchange.Serilog.Formatting.Display;
+global using Autodesk.DataExchange.Serilog.Parsing;
+global using Autodesk.DataExchange.Serilog.PerformanceTests.Support;
+global using Xunit;

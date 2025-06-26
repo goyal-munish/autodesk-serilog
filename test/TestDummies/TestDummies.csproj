@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="PolySharp" Version="1.14.1" PrivateAssets="All" />
-    <ProjectReference Include="..\..\src\Serilog\Serilog.csproj" />
+    <ProjectReference Include="..\..\src\Autodesk.DataExchange.Serilog\Autodesk.DataExchange.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

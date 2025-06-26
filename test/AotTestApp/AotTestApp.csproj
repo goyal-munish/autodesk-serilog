@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Serilog\Serilog.csproj" />
-    <TrimmerRootAssembly Include="Serilog" />
+    <ProjectReference Include="..\..\src\Autodesk.DataExchange.Serilog\Autodesk.DataExchange.Serilog.csproj" />
+    <TrimmerRootAssembly Include="Autodesk.DataExchange.Serilog" />
   </ItemGroup>
 
   <Target Name="PublishOnBuild" AfterTargets="Build" DependsOnTargets="Publish" />
 
-  <Import Project="..\..\src\Serilog\Serilog.targets" />
+  <Import Project="..\..\src\Autodesk.DataExchange.Serilog\Autodesk.DataExchange.Serilog.targets" />
 
 </Project>
