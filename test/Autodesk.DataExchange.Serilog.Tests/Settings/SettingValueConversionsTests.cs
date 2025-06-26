@@ -80,14 +80,14 @@ public class SettingValueConversionsTests
     [Fact]
     public void StringValuesConvertToDefaultInstancesIfTargetIsInterface()
     {
-        var result = SettingValueConversions.ConvertToType("Serilog.Formatting.Json.JsonFormatter", typeof(ITextFormatter));
+        var result = SettingValueConversions.ConvertToType("Autodesk.DataExchange.Serilog.Formatting.Json.JsonFormatter", typeof(ITextFormatter));
         Assert.IsType<JsonFormatter>(result);
     }
 
     [Fact]
     public void StringValuesConvertToDefaultInstancesIfTargetIsAbstractClass()
     {
-        var result = SettingValueConversions.ConvertToType("Serilog.Tests.Support.DummyConcreteClassWithDefaultConstructor, Serilog.Tests", typeof(DummyAbstractClass));
+        var result = SettingValueConversions.ConvertToType("Autodesk.DataExchange.Serilog.Tests.Support.DummyConcreteClassWithDefaultConstructor, Autodesk.DataExchange.Serilog.Tests", typeof(DummyAbstractClass));
         Assert.IsType<DummyConcreteClassWithDefaultConstructor>(result);
     }
 
@@ -156,10 +156,10 @@ public class SettingValueConversionsTests
     }
 
     [Theory]
-    [InlineData("Serilog.Tests.Support.ClassWithStaticAccessors::InterfaceProperty, Serilog.Tests", typeof(IAmAnInterface))]
-    [InlineData("Serilog.Tests.Support.ClassWithStaticAccessors::AbstractProperty, Serilog.Tests", typeof(AnAbstractClass))]
-    [InlineData("Serilog.Tests.Support.ClassWithStaticAccessors::InterfaceField, Serilog.Tests", typeof(IAmAnInterface))]
-    [InlineData("Serilog.Tests.Support.ClassWithStaticAccessors::AbstractField, Serilog.Tests", typeof(AnAbstractClass))]
+    [InlineData("Autodesk.DataExchange.Serilog.Tests.Support.ClassWithStaticAccessors::InterfaceProperty, Autodesk.DataExchange.Serilog.Tests", typeof(IAmAnInterface))]
+    [InlineData("Autodesk.DataExchange.Serilog.Tests.Support.ClassWithStaticAccessors::AbstractProperty, Autodesk.DataExchange.Serilog.Tests", typeof(AnAbstractClass))]
+    [InlineData("Autodesk.DataExchange.Serilog.Tests.Support.ClassWithStaticAccessors::InterfaceField, Autodesk.DataExchange.Serilog.Tests", typeof(IAmAnInterface))]
+    [InlineData("Autodesk.DataExchange.Serilog.Tests.Support.ClassWithStaticAccessors::AbstractField, Autodesk.DataExchange.Serilog.Tests", typeof(AnAbstractClass))]
     public void StaticMembersAccessorsCanBeUsedForReferenceTypes(string input, Type targetType)
     {
         var actual = SettingValueConversions.ConvertToType(input, targetType);

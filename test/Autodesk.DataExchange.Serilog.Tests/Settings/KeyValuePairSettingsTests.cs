@@ -333,7 +333,7 @@ public class KeyValuePairSettingsTests
         var settings = new Dictionary<string, string>
         {
             ["using:TestDummies"] = typeof(DummyLoggerConfigurationExtensions).Assembly.FullName!,
-            ["write-to:DummyConsole.theme"] = "Serilog.Tests.Support.CustomConsoleTheme, Serilog.Tests"
+            ["write-to:DummyConsole.theme"] = "Autodesk.DataExchange.Serilog.Tests.Support.CustomConsoleTheme, Autodesk.DataExchange.Serilog.Tests"
         };
 
         DummyConsoleSink.Theme = null;

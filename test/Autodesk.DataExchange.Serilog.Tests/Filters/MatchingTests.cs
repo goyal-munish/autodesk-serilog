@@ -41,7 +41,7 @@ public class MatchingTests
     {
         var written = false;
         var log = new LoggerConfiguration()
-            .Filter.ByExcluding(Matching.FromSource("Serilog.Tests"))
+            .Filter.ByExcluding(Matching.FromSource("Autodesk.DataExchange.Serilog.Tests"))
             .WriteTo.Sink(new DelegatingSink(_ => written = true))
             .CreateLogger()
             .ForContext<MatchingTests>();
