@@ -1,1 +1,925 @@
-﻿
+﻿namespace Autodesk.DataExchange.Serilog.Configuration
+{
+    public class BatchingOptions
+    {
+        public BatchingOptions() { }
+        public int BatchSizeLimit { get; set; }
+        public System.TimeSpan BufferingTimeLimit { get; set; }
+        public bool EagerlyEmitFirstEvent { get; set; }
+        public int? QueueLimit { get; set; }
+        public System.TimeSpan RetryTimeLimit { get; set; }
+    }
+    public interface ILoggerSettings
+    {
+        void Configure(Autodesk.DataExchange.Serilog.LoggerConfiguration loggerConfiguration);
+    }
+    public class LoggerAuditSinkConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Logger(Autodesk.DataExchange.Serilog.ILogger logger, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Logger(System.Action<Autodesk.DataExchange.Serilog.LoggerConfiguration> configureLogger, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink(Autodesk.DataExchange.Serilog.Core.ILogEventSink logEventSink, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink<TSink>(Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null)
+            where TSink : Autodesk.DataExchange.Serilog.Core.ILogEventSink, new () { }
+    }
+    public class LoggerDestructuringConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration AsDictionary<T>()
+            where T : System.Collections.IDictionary { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration AsScalar(System.Type scalarType) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration AsScalar<TScalar>() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ByTransforming<TValue>(System.Func<TValue, object> transformation) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ByTransformingWhere<TValue>(System.Func<System.Type, bool> predicate, System.Func<TValue, object> transformation) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ToMaximumCollectionCount(int maximumCollectionCount) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ToMaximumDepth(int maximumDestructuringDepth) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ToMaximumStringLength(int maximumStringLength) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With(params Autodesk.DataExchange.Serilog.Core.IDestructuringPolicy[] destructuringPolicies) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With<TDestructuringPolicy>()
+            where TDestructuringPolicy : Autodesk.DataExchange.Serilog.Core.IDestructuringPolicy, new () { }
+    }
+    public class LoggerEnrichmentConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration AtLevel(Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch levelSwitch, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration> configureEnricher) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration AtLevel(Autodesk.DataExchange.Serilog.Events.LogEventLevel enrichFromLevel, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration> configureEnricher) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration FromLogContext() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration When(System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> condition, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration> configureEnricher) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With(params Autodesk.DataExchange.Serilog.Core.ILogEventEnricher[] enrichers) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With<TEnricher>()
+            where TEnricher : Autodesk.DataExchange.Serilog.Core.ILogEventEnricher, new () { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration WithProperty(string name, object? value, bool destructureObjects = false) { }
+        public static Autodesk.DataExchange.Serilog.LoggerConfiguration Wrap(Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration loggerEnrichmentConfiguration, System.Func<Autodesk.DataExchange.Serilog.Core.ILogEventEnricher, Autodesk.DataExchange.Serilog.Core.ILogEventEnricher> wrapEnricher, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration> configureWrappedEnricher) { }
+    }
+    public class LoggerFilterConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ByExcluding(System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> exclusionPredicate) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ByIncludingOnly(System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> inclusionPredicate) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With(params Autodesk.DataExchange.Serilog.Core.ILogEventFilter[] filters) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration With<TFilter>()
+            where TFilter : Autodesk.DataExchange.Serilog.Core.ILogEventFilter, new () { }
+    }
+    public class LoggerMinimumLevelConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration ControlledBy(Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch levelSwitch) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Debug() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Error() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Fatal() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Information() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Is(Autodesk.DataExchange.Serilog.Events.LogEventLevel minimumLevel) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Override(string source, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch levelSwitch) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Override(string source, Autodesk.DataExchange.Serilog.Events.LogEventLevel minimumLevel) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Verbose() { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Warning() { }
+    }
+    public class LoggerSettingsConfiguration
+    {
+        [System.Diagnostics.CodeAnalysis.RequiresDynamicCode("KeyValuePair may need to create arrays, which requires dynamic code generation an" +
+            "d is not compatible with AOT.")]
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("KeyValuePair scans for configuration assemblies at run time and is not compatible" +
+            " with trimming.")]
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration KeyValuePairs(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>> settings) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Settings(Autodesk.DataExchange.Serilog.Configuration.ILoggerSettings settings) { }
+    }
+    public class LoggerSinkConfiguration
+    {
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Conditional(System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> condition, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureSink) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration FallbackChain(System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureSink, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureFallback, params System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration>[] configureSubsequentFallbacks) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Fallible(System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureSink, Autodesk.DataExchange.Serilog.Core.ILoggingFailureListener failureListener) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Logger(Autodesk.DataExchange.Serilog.ILogger logger, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Logger(System.Action<Autodesk.DataExchange.Serilog.LoggerConfiguration> configureLogger, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Logger(Autodesk.DataExchange.Serilog.ILogger logger, bool attemptDispose = false, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink(Autodesk.DataExchange.Serilog.Core.ILogEventSink logEventSink, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink(Autodesk.DataExchange.Serilog.Core.ILogEventSink logEventSink, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink(Autodesk.DataExchange.Serilog.Core.IBatchedLogEventSink batchedLogEventSink, Autodesk.DataExchange.Serilog.Configuration.BatchingOptions batchingOptions, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink<TSink>(Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null)
+            where TSink : Autodesk.DataExchange.Serilog.Core.ILogEventSink, new () { }
+        public Autodesk.DataExchange.Serilog.LoggerConfiguration Sink<TSink>(Autodesk.DataExchange.Serilog.Configuration.BatchingOptions batchingOptions, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null)
+            where TSink : Autodesk.DataExchange.Serilog.Core.IBatchedLogEventSink, new () { }
+        public static Autodesk.DataExchange.Serilog.Core.ILogEventSink CreateSink(System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configure) { }
+        public static Autodesk.DataExchange.Serilog.Core.ILogEventSink Wrap(System.Func<Autodesk.DataExchange.Serilog.Core.ILogEventSink, Autodesk.DataExchange.Serilog.Core.ILogEventSink> wrapSink, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureWrappedSink) { }
+        [System.Obsolete("Use the two-argument `Wrap()` overload to construct a wrapper, then use `WriteTo." +
+            "Sink()` to add it to the configuration.")]
+        public static Autodesk.DataExchange.Serilog.LoggerConfiguration Wrap(Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration loggerSinkConfiguration, System.Func<Autodesk.DataExchange.Serilog.Core.ILogEventSink, Autodesk.DataExchange.Serilog.Core.ILogEventSink> wrapSink, System.Action<Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration> configureWrappedSink, Autodesk.DataExchange.Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitch? levelSwitch = null) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Context
+{
+    public static class LogContext
+    {
+        public static Autodesk.DataExchange.Serilog.Core.ILogEventEnricher Clone() { }
+        [System.Runtime.CompilerServices.OverloadResolutionPriority(3)]
+        public static System.IDisposable Push(Autodesk.DataExchange.Serilog.Core.ILogEventEnricher enricher) { }
+        [System.Runtime.CompilerServices.OverloadResolutionPriority(0)]
+        public static System.IDisposable Push(params Autodesk.DataExchange.Serilog.Core.ILogEventEnricher[] enrichers) { }
+        [System.Runtime.CompilerServices.OverloadResolutionPriority(1)]
+        public static System.IDisposable Push([System.Runtime.CompilerServices.ParamCollection] System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Core.ILogEventEnricher> enrichers) { }
+        [System.Runtime.CompilerServices.OverloadResolutionPriority(2)]
+        public static System.IDisposable Push([System.Runtime.CompilerServices.ParamCollection] [System.Runtime.CompilerServices.ScopedRef] System.ReadOnlySpan<Autodesk.DataExchange.Serilog.Core.ILogEventEnricher> enrichers) { }
+        public static System.IDisposable PushProperty(string name, object? value, bool destructureObjects = false) { }
+        public static void Reset() { }
+        public static System.IDisposable Suspend() { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Core
+{
+    public static class Constants
+    {
+        public const string SourceContextPropertyName = "SourceContext";
+    }
+    public interface IBatchedLogEventSink
+    {
+        System.Threading.Tasks.Task EmitBatchAsync(System.Collections.Generic.IReadOnlyCollection<Autodesk.DataExchange.Serilog.Events.LogEvent> batch);
+        System.Threading.Tasks.Task OnEmptyBatchAsync();
+    }
+    public interface IDestructuringPolicy
+    {
+        bool TryDestructure(object value, Autodesk.DataExchange.Serilog.Core.ILogEventPropertyValueFactory propertyValueFactory, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue? result);
+    }
+    public interface ILogEventEnricher
+    {
+        void Enrich(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent, Autodesk.DataExchange.Serilog.Core.ILogEventPropertyFactory propertyFactory);
+    }
+    public interface ILogEventFilter
+    {
+        bool IsEnabled(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent);
+    }
+    public interface ILogEventPropertyFactory
+    {
+        Autodesk.DataExchange.Serilog.Events.LogEventProperty CreateProperty(string name, object? value, bool destructureObjects = false);
+    }
+    public interface ILogEventPropertyValueFactory
+    {
+        Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue CreatePropertyValue(object? value, bool destructureObjects = false);
+    }
+    public interface ILogEventSink
+    {
+        void Emit(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent);
+    }
+    public interface ILoggingFailureListener
+    {
+        void OnLoggingFailed(object sender, Autodesk.DataExchange.Serilog.Core.LoggingFailureKind kind, string message, System.Collections.Generic.IReadOnlyCollection<Autodesk.DataExchange.Serilog.Events.LogEvent>? events, System.Exception? exception);
+    }
+    public interface ISetLoggingFailureListener
+    {
+        void SetFailureListener(Autodesk.DataExchange.Serilog.Core.ILoggingFailureListener failureListener);
+    }
+    public sealed class Logger : Autodesk.DataExchange.Serilog.Core.ILogEventSink, Autodesk.DataExchange.Serilog.ILogger, System.IAsyncDisposable, System.IDisposable
+    {
+        public static Autodesk.DataExchange.Serilog.ILogger None { get; }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public bool BindMessageTemplate(string messageTemplate, object?[]? propertyValues, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.MessageTemplate? parsedTemplate, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty>? boundProperties) { }
+        public bool BindProperty(string? propertyName, object? value, bool destructureObjects, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.LogEventProperty? property) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Debug<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public void Dispose() { }
+        public System.Threading.Tasks.ValueTask DisposeAsync() { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Error<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Fatal<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public Autodesk.DataExchange.Serilog.ILogger ForContext(Autodesk.DataExchange.Serilog.Core.ILogEventEnricher enricher) { }
+        public Autodesk.DataExchange.Serilog.ILogger ForContext(System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Core.ILogEventEnricher> enrichers) { }
+        public Autodesk.DataExchange.Serilog.ILogger ForContext(System.Type source) { }
+        public Autodesk.DataExchange.Serilog.ILogger ForContext(string propertyName, object? value, bool destructureObjects = false) { }
+        public Autodesk.DataExchange.Serilog.ILogger ForContext<TSource>() { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Information<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public bool IsEnabled(Autodesk.DataExchange.Serilog.Events.LogEventLevel level) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Verbose<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Warning<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public void Write(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+    }
+    public enum LoggingFailureKind
+    {
+        Temporary = 0,
+        Permanent = 1,
+        Final = 2,
+    }
+    public class LoggingLevelSwitch
+    {
+        public LoggingLevelSwitch(Autodesk.DataExchange.Serilog.Events.LogEventLevel initialMinimumLevel = 2) { }
+        public Autodesk.DataExchange.Serilog.Events.LogEventLevel MinimumLevel { get; set; }
+        public event System.EventHandler<Autodesk.DataExchange.Serilog.Core.LoggingLevelSwitchChangedEventArgs>? MinimumLevelChanged;
+    }
+    public class LoggingLevelSwitchChangedEventArgs : System.EventArgs
+    {
+        public LoggingLevelSwitchChangedEventArgs(Autodesk.DataExchange.Serilog.Events.LogEventLevel oldLevel, Autodesk.DataExchange.Serilog.Events.LogEventLevel newLevel) { }
+        public Autodesk.DataExchange.Serilog.Events.LogEventLevel NewLevel { get; }
+        public Autodesk.DataExchange.Serilog.Events.LogEventLevel OldLevel { get; }
+    }
+    [System.AttributeUsage(System.AttributeTargets.Constructor | System.AttributeTargets.Method)]
+    public sealed class MessageTemplateFormatMethodAttribute : System.Attribute
+    {
+        public MessageTemplateFormatMethodAttribute(string messageTemplateParameterName) { }
+        public string MessageTemplateParameterName { get; }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Core.Enrichers
+{
+    public class PropertyEnricher : Autodesk.DataExchange.Serilog.Core.ILogEventEnricher
+    {
+        public PropertyEnricher(string name, object? value, bool destructureObjects = false) { }
+        public void Enrich(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent, Autodesk.DataExchange.Serilog.Core.ILogEventPropertyFactory propertyFactory) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Data
+{
+    public abstract class LogEventPropertyValueRewriter<TState> : Autodesk.DataExchange.Serilog.Data.LogEventPropertyValueVisitor<TState, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue>
+    {
+        protected LogEventPropertyValueRewriter() { }
+        protected override Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue VisitDictionaryValue(TState state, Autodesk.DataExchange.Serilog.Events.DictionaryValue dictionary) { }
+        protected override Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue VisitScalarValue(TState state, Autodesk.DataExchange.Serilog.Events.ScalarValue scalar) { }
+        protected override Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue VisitSequenceValue(TState state, Autodesk.DataExchange.Serilog.Events.SequenceValue sequence) { }
+        protected override Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue VisitStructureValue(TState state, Autodesk.DataExchange.Serilog.Events.StructureValue structure) { }
+        protected override Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue VisitUnsupportedValue(TState state, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue value) { }
+    }
+    public abstract class LogEventPropertyValueVisitor<TState, TResult>
+    {
+        protected LogEventPropertyValueVisitor() { }
+        protected virtual TResult Visit(TState state, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue value) { }
+        protected abstract TResult VisitDictionaryValue(TState state, Autodesk.DataExchange.Serilog.Events.DictionaryValue dictionary);
+        protected abstract TResult VisitScalarValue(TState state, Autodesk.DataExchange.Serilog.Events.ScalarValue scalar);
+        protected abstract TResult VisitSequenceValue(TState state, Autodesk.DataExchange.Serilog.Events.SequenceValue sequence);
+        protected abstract TResult VisitStructureValue(TState state, Autodesk.DataExchange.Serilog.Events.StructureValue structure);
+        protected virtual TResult VisitUnsupportedValue(TState state, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue value) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Debugging
+{
+    public class LoggingFailedException : System.Exception
+    {
+        public LoggingFailedException(string message) { }
+    }
+    public static class SelfLog
+    {
+        public static Autodesk.DataExchange.Serilog.Core.ILoggingFailureListener FailureListener { get; }
+        public static void Disable() { }
+        public static void Enable(System.Action<string> output) { }
+        public static void Enable(System.IO.TextWriter output) { }
+        public static void WriteLine(string format, object? arg0 = null, object? arg1 = null, object? arg2 = null) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Events
+{
+    public class DictionaryValue : Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue
+    {
+        public DictionaryValue(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<Autodesk.DataExchange.Serilog.Events.ScalarValue, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue>> elements) { }
+        public System.Collections.Generic.IReadOnlyDictionary<Autodesk.DataExchange.Serilog.Events.ScalarValue, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> Elements { get; }
+        public override void Render(System.IO.TextWriter output, string? format = null, System.IFormatProvider? formatProvider = null) { }
+    }
+    public static class LevelAlias
+    {
+        public const Autodesk.DataExchange.Serilog.Events.LogEventLevel Maximum = 5;
+        public const Autodesk.DataExchange.Serilog.Events.LogEventLevel Minimum = 0;
+        public const Autodesk.DataExchange.Serilog.Events.LogEventLevel Off = 6;
+    }
+    public class LogEvent
+    {
+        public LogEvent(System.DateTimeOffset timestamp, Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, Autodesk.DataExchange.Serilog.Events.MessageTemplate messageTemplate, System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty> properties) { }
+        [System.CLSCompliant(false)]
+        public LogEvent(System.DateTimeOffset timestamp, Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, Autodesk.DataExchange.Serilog.Events.MessageTemplate messageTemplate, System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty> properties, System.Diagnostics.ActivityTraceId traceId, System.Diagnostics.ActivitySpanId spanId) { }
+        public System.Exception? Exception { get; }
+        public Autodesk.DataExchange.Serilog.Events.LogEventLevel Level { get; }
+        public Autodesk.DataExchange.Serilog.Events.MessageTemplate MessageTemplate { get; }
+        public System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> Properties { get; }
+        [System.CLSCompliant(false)]
+        public System.Diagnostics.ActivitySpanId? SpanId { get; }
+        public System.DateTimeOffset Timestamp { get; }
+        [System.CLSCompliant(false)]
+        public System.Diagnostics.ActivityTraceId? TraceId { get; }
+        public void AddOrUpdateProperty(Autodesk.DataExchange.Serilog.Events.LogEventProperty property) { }
+        public void AddPropertyIfAbsent(Autodesk.DataExchange.Serilog.Events.LogEventProperty property) { }
+        public void AddPropertyIfAbsent(Autodesk.DataExchange.Serilog.Core.ILogEventPropertyFactory factory, string name, object? value, bool destructureObjects = false) { }
+        public void RemovePropertyIfPresent(string propertyName) { }
+        public string RenderMessage(System.IFormatProvider? formatProvider = null) { }
+        public void RenderMessage(System.IO.TextWriter output, System.IFormatProvider? formatProvider = null) { }
+        [System.CLSCompliant(false)]
+        public static Autodesk.DataExchange.Serilog.Events.LogEvent UnstableAssembleFromParts(System.DateTimeOffset timestamp, Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, Autodesk.DataExchange.Serilog.Events.MessageTemplate messageTemplate, System.Collections.Generic.Dictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.Diagnostics.ActivityTraceId traceId, System.Diagnostics.ActivitySpanId spanId) { }
+    }
+    public enum LogEventLevel
+    {
+        Verbose = 0,
+        Debug = 1,
+        Information = 2,
+        Warning = 3,
+        Error = 4,
+        Fatal = 5,
+    }
+    public class LogEventProperty
+    {
+        public LogEventProperty(string name, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue value) { }
+        public string Name { get; }
+        public Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue Value { get; }
+        public static bool IsValidName([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] string? name) { }
+    }
+    public abstract class LogEventPropertyValue : System.IFormattable
+    {
+        protected LogEventPropertyValue() { }
+        public abstract void Render(System.IO.TextWriter output, string? format = null, System.IFormatProvider? formatProvider = null);
+        public override string ToString() { }
+        public string ToString(string? format, System.IFormatProvider? formatProvider) { }
+    }
+    public class MessageTemplate
+    {
+        public MessageTemplate(System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Parsing.MessageTemplateToken> tokens) { }
+        public MessageTemplate(string text, System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Parsing.MessageTemplateToken> tokens) { }
+        public string Text { get; }
+        public System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Parsing.MessageTemplateToken> Tokens { get; }
+        public static Autodesk.DataExchange.Serilog.Events.MessageTemplate Empty { get; }
+        public string Render(System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.IFormatProvider? formatProvider = null) { }
+        public void Render(System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.IO.TextWriter output, System.IFormatProvider? formatProvider = null) { }
+        public override string ToString() { }
+    }
+    public class ScalarValue : Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue
+    {
+        public ScalarValue(object? value) { }
+        public object? Value { get; }
+        public static Autodesk.DataExchange.Serilog.Events.ScalarValue Null { get; }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override void Render(System.IO.TextWriter output, string? format = null, System.IFormatProvider? formatProvider = null) { }
+    }
+    public class SequenceValue : Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue
+    {
+        public SequenceValue(System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> elements) { }
+        public System.Collections.Generic.IReadOnlyList<Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> Elements { get; }
+        public static Autodesk.DataExchange.Serilog.Events.SequenceValue Empty { get; }
+        public override void Render(System.IO.TextWriter output, string? format = null, System.IFormatProvider? formatProvider = null) { }
+    }
+    public class StructureValue : Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue
+    {
+        public StructureValue(System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty> properties, string? typeTag = null) { }
+        public System.Collections.Generic.IReadOnlyList<Autodesk.DataExchange.Serilog.Events.LogEventProperty> Properties { get; }
+        public string? TypeTag { get; }
+        public override void Render(System.IO.TextWriter output, string? format = null, System.IFormatProvider? formatProvider = null) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Filters
+{
+    public static class Matching
+    {
+        public static System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> FromSource(string source) { }
+        public static System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> FromSource<TSource>() { }
+        public static System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> WithProperty(string propertyName) { }
+        public static System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> WithProperty(string propertyName, object scalarValue) { }
+        public static System.Func<Autodesk.DataExchange.Serilog.Events.LogEvent, bool> WithProperty<TScalar>(string propertyName, System.Func<TScalar, bool> predicate) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Formatting.Display
+{
+    public class MessageTemplateTextFormatter : Autodesk.DataExchange.Serilog.Formatting.ITextFormatter
+    {
+        public MessageTemplateTextFormatter(string outputTemplate, System.IFormatProvider? formatProvider = null) { }
+        public void Format(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent, System.IO.TextWriter output) { }
+    }
+    public static class OutputProperties
+    {
+        public const string ExceptionPropertyName = "Exception";
+        public const string LevelPropertyName = "Level";
+        public const string MessagePropertyName = "Message";
+        public const string NewLinePropertyName = "NewLine";
+        public const string PropertiesPropertyName = "Properties";
+        public const string SpanIdPropertyName = "SpanId";
+        public const string TimestampPropertyName = "Timestamp";
+        public const string TraceIdPropertyName = "TraceId";
+        public const string UtcTimestampPropertyName = "UtcTimestamp";
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Formatting
+{
+    public interface ITextFormatter
+    {
+        void Format(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent, System.IO.TextWriter output);
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Formatting.Json
+{
+    public sealed class JsonFormatter : Autodesk.DataExchange.Serilog.Formatting.ITextFormatter
+    {
+        public JsonFormatter(string? closingDelimiter = null, bool renderMessage = false, System.IFormatProvider? formatProvider = null) { }
+        public void Format(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent, System.IO.TextWriter output) { }
+    }
+    public class JsonValueFormatter : Autodesk.DataExchange.Serilog.Data.LogEventPropertyValueVisitor<System.IO.TextWriter, bool>
+    {
+        public JsonValueFormatter(string? typeTagName = "_typeTag") { }
+        public void Format(Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue value, System.IO.TextWriter output) { }
+        protected virtual void FormatLiteralValue(object? value, System.IO.TextWriter output) { }
+        protected override bool VisitDictionaryValue(System.IO.TextWriter state, Autodesk.DataExchange.Serilog.Events.DictionaryValue dictionary) { }
+        protected override bool VisitScalarValue(System.IO.TextWriter state, Autodesk.DataExchange.Serilog.Events.ScalarValue scalar) { }
+        protected override bool VisitSequenceValue(System.IO.TextWriter state, Autodesk.DataExchange.Serilog.Events.SequenceValue sequence) { }
+        protected override bool VisitStructureValue(System.IO.TextWriter state, Autodesk.DataExchange.Serilog.Events.StructureValue structure) { }
+        public static void WriteQuotedJsonString(string str, System.IO.TextWriter output) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog
+{
+    public interface ILogger
+    {
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        bool BindMessageTemplate(string messageTemplate, object?[]? propertyValues, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.MessageTemplate? parsedTemplate, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty>? boundProperties);
+        bool BindProperty(string? propertyName, object? value, bool destructureObjects, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.LogEventProperty? property);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Debug<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Error<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Fatal<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        Autodesk.DataExchange.Serilog.ILogger ForContext(Autodesk.DataExchange.Serilog.Core.ILogEventEnricher enricher);
+        Autodesk.DataExchange.Serilog.ILogger ForContext(System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Core.ILogEventEnricher> enrichers);
+        Autodesk.DataExchange.Serilog.ILogger ForContext(System.Type source);
+        Autodesk.DataExchange.Serilog.ILogger ForContext(string propertyName, object? value, bool destructureObjects = false);
+        Autodesk.DataExchange.Serilog.ILogger ForContext<TSource>();
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Information<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        bool IsEnabled(Autodesk.DataExchange.Serilog.Events.LogEventLevel level);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Verbose<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning(string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning(System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning(string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning(System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T>(string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T>(System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Warning<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        void Write(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, params object?[]? propertyValues);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T propertyValue);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2);
+    }
+    public static class Log
+    {
+        public static Autodesk.DataExchange.Serilog.ILogger Logger { get; set; }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static bool BindMessageTemplate(string messageTemplate, object?[] propertyValues, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.MessageTemplate? parsedTemplate, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out System.Collections.Generic.IEnumerable<Autodesk.DataExchange.Serilog.Events.LogEventProperty>? boundProperties) { }
+        public static bool BindProperty(string propertyName, object? value, bool destructureObjects, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Autodesk.DataExchange.Serilog.Events.LogEventProperty? property) { }
+        public static void CloseAndFlush() { }
+        public static System.Threading.Tasks.ValueTask CloseAndFlushAsync() { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Debug<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Error<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Fatal<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext(Autodesk.DataExchange.Serilog.Core.ILogEventEnricher enricher) { }
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext(Autodesk.DataExchange.Serilog.Core.ILogEventEnricher[] enrichers) { }
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext(System.Type source) { }
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext(string propertyName, object? value, bool destructureObjects = false) { }
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext<TSource>() { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Information<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public static bool IsEnabled(Autodesk.DataExchange.Serilog.Events.LogEventLevel level) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Verbose<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning(string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning(System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning(string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning(System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T>(string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T>(System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T0, T1>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Warning<T0, T1, T2>(System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        public static void Write(Autodesk.DataExchange.Serilog.Events.LogEvent logEvent) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, params object?[]? propertyValues) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T propertyValue) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T0, T1>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+        [Autodesk.DataExchange.Serilog.Core.MessageTemplateFormatMethod("messageTemplate")]
+        public static void Write<T0, T1, T2>(Autodesk.DataExchange.Serilog.Events.LogEventLevel level, System.Exception? exception, string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) { }
+    }
+    public class LoggerConfiguration
+    {
+        public LoggerConfiguration() { }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerAuditSinkConfiguration AuditTo { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerDestructuringConfiguration Destructure { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerEnrichmentConfiguration Enrich { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerFilterConfiguration Filter { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerMinimumLevelConfiguration MinimumLevel { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerSettingsConfiguration ReadFrom { get; }
+        public Autodesk.DataExchange.Serilog.Configuration.LoggerSinkConfiguration WriteTo { get; }
+        public Autodesk.DataExchange.Serilog.Core.Logger CreateLogger() { }
+    }
+    public static class LoggerExtensions
+    {
+        public static Autodesk.DataExchange.Serilog.ILogger ForContext<TValue>(this Autodesk.DataExchange.Serilog.ILogger logger, Autodesk.DataExchange.Serilog.Events.LogEventLevel level, string propertyName, TValue value, bool destructureObjects = false) { }
+    }
+}
+namespace Autodesk.DataExchange.Serilog.Parsing
+{
+    public readonly struct Alignment
+    {
+        public Alignment(Autodesk.DataExchange.Serilog.Parsing.AlignmentDirection direction, int width) { }
+        public Autodesk.DataExchange.Serilog.Parsing.AlignmentDirection Direction { get; }
+        public int Width { get; }
+    }
+    public enum AlignmentDirection
+    {
+        Left = 0,
+        Right = 1,
+    }
+    public enum Destructuring
+    {
+        Default = 0,
+        Stringify = 1,
+        Destructure = 2,
+    }
+    public class MessageTemplateParser
+    {
+        public MessageTemplateParser() { }
+        public Autodesk.DataExchange.Serilog.Events.MessageTemplate Parse(string messageTemplate) { }
+    }
+    public abstract class MessageTemplateToken
+    {
+        protected MessageTemplateToken() { }
+        public abstract int Length { get; }
+        public abstract void Render(System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.IO.TextWriter output, System.IFormatProvider? formatProvider = null);
+    }
+    public sealed class PropertyToken : Autodesk.DataExchange.Serilog.Parsing.MessageTemplateToken
+    {
+        public PropertyToken(string propertyName, string rawText, string? format = null, in Autodesk.DataExchange.Serilog.Parsing.Alignment? alignment = null, Autodesk.DataExchange.Serilog.Parsing.Destructuring destructuring = 0) { }
+        public Autodesk.DataExchange.Serilog.Parsing.Alignment? Alignment { get; }
+        public Autodesk.DataExchange.Serilog.Parsing.Destructuring Destructuring { get; }
+        public string? Format { get; }
+        public bool IsPositional { get; }
+        public override int Length { get; }
+        public string PropertyName { get; }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override void Render(System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.IO.TextWriter output, System.IFormatProvider? formatProvider = null) { }
+        public override string ToString() { }
+        public bool TryGetPositionalValue(out int position) { }
+    }
+    public sealed class TextToken : Autodesk.DataExchange.Serilog.Parsing.MessageTemplateToken
+    {
+        public TextToken(string text) { }
+        public override int Length { get; }
+        public string Text { get; }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override void Render(System.Collections.Generic.IReadOnlyDictionary<string, Autodesk.DataExchange.Serilog.Events.LogEventPropertyValue> properties, System.IO.TextWriter output, System.IFormatProvider? formatProvider = null) { }
+        public override string ToString() { }
+    }
+}
